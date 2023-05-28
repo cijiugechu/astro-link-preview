@@ -29,8 +29,6 @@
     "build:core": "pnpm run --filter astro-link-preview build",
     "build:playground": "pnpm run --filter playground build",
     "build": "pnpm run build:core && pnpm run build:playground",
-    "test": "vitest",
-    "test:watch": "vitest -w",
     "prepublishOnly": "pnpm run build"
   },
   "license": "MIT",

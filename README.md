@@ -38,6 +38,24 @@ import { Link } from 'astro-link-preview';
 </Link>
 ```
 
+## Options
+
+```ts
+import type { LaunchOptions } from '@playwright/test'
+
+export interface Options {
+  /**
+   * Whether to log stats
+   * @default true
+   */
+  logStats?: boolean
+  /**
+   * proxy settings
+   */
+  proxy?: LaunchOptions['proxy']
+}
+```
+
 ## How to use
 
 see [example](./packages/playground/)
