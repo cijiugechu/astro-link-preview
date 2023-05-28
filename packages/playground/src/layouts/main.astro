@@ -25,7 +25,7 @@ const { content } = Astro.props;
 		<main class="content">
 			<header>
 				<nav class="nav">
-					<a href="/">Home</a>
+					<a href={`${import.meta.env.BASE_URL}`}>Home</a>
 					<a href={`${import.meta.env.BASE_URL}second`}>Second</a>
 				</nav>
 			</header>
