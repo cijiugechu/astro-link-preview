@@ -1,0 +1,43 @@
+{
+  "name": "astro-link-preview-monorepo",
+  "version": "0.0.0",
+  "author": "nemurubaka",
+  "private": true,
+  "description": "",
+  "keywords": [],
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "exports": {
+    "require": "./dist/index.js",
+    "import": "./dist/index.mjs"
+  },
+  "types": "./dist/index.d.ts",
+  "homepage": "https://github.com/jufuku-haijo/ts-lib-starter",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:jufuku-haijo/ts-lib-starter.git"
+  },
+  "bugs": "https://github.com/jufuku-haijo/ts-lib-starter/issues",
+  "scripts": {
+    "format": "prettier --write . --ignore-unkown",
+    "build:core": "pnpm run --filter astro-link-preview build",
+    "build:playground": "pnpm run --filter playground build",
+    "build": "pnpm run build:core && pnpm run build:playground",
+    "test": "vitest",
+    "test:watch": "vitest -w",
+    "prepublishOnly": "pnpm run build"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "^2.8.8",
+    "tsup": "^6.7.0",
+    "typescript": "^4.9.5",
+    "vitest": "^0.31.0"
+  }
+}

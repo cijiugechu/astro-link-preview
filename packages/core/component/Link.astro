@@ -1,0 +1,67 @@
+---
+
+import type { HTMLAttributes } from 'astro/types'
+import xxhash from 'xxhash-wasm'
+import './Link.css'
+
+
+export interface Props extends HTMLAttributes<'a'> {
+
+}
+
+
+const { href, ...rest } = Astro.props
+
+
+const stringURL = typeof href === 'string' ? href : href.href
+
+const hashed = (await xxhash()).h32(stringURL)
+
+
+---
+
+<a href={href} data-link-preview={hashed} {...rest}>
+  <slot />
+</a>
+
+<script>
+  const links = document.querySelectorAll('[data-link-preview]')
+
+  links.forEach(item => {
+    item.addEventListener('mouseenter', e => {
+      //@ts-ignore
+      const hashed = item.dataset['linkPreview']
+
+      console.log(hashed)
+
+      let previewElement: HTMLImageElement | null = null
+
+      const el = document.getElementById(`image-${hashed}`) as HTMLImageElement
+
+      if(el) {
+        previewElement = el
+        el.classList.remove('astro-link-preview_img--hidden')
+      }else{
+        previewElement = document.createElement('img')
+        previewElement.src = `${import.meta.env.BASE_URL}${hashed}.png`
+        previewElement.className = 'astro-link-preview_img'
+        previewElement.id = `image-${hashed}`
+        previewElement.style.position = 'fixed'
+        //@ts-ignore
+        previewElement.style.left = `${e.clientX}px`
+        //@ts-ignore
+        previewElement.style.top = `${e.clientY}px`
+      }
+
+      document.body.appendChild(previewElement)
+    })
+
+    item.addEventListener('mouseleave', e => {
+      //@ts-ignore
+      const hashed = item.dataset['linkPreview']
+      const previewElement = document.getElementById(`image-${hashed}`)
+
+      previewElement.classList.add('astro-link-preview_img--hidden')
+    })
+  })
+</script>

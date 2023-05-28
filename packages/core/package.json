@@ -1,0 +1,55 @@
+{
+  "name": "astro-link-preview",
+  "version": "0.1.0",
+  "description": "This Astro integration brings satori to your Astro project.",
+  "private": false,
+  "type": "module",
+  "exports": {
+    ".": "./index.ts",
+    "./integration": "./dist/index.mjs"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "files": [
+    "dist",
+    "component"
+  ],
+  "scripts": {
+    "build:component": "node ./build-component.mjs",
+    "build:debug": "tsup --config tsup.debug.ts",
+    "build": "tsup --config tsup.config.ts",
+    "install-playwright-deps": "playwright install --with-deps chromium",
+    "postinstall": "playwright install --with-deps chromium"
+  },
+  "keywords": [
+    "astro",
+    "astro-integration",
+    "astro-component",
+    "preview",
+    "link",
+    "integration"
+  ],
+  "author": "nemurubaka",
+  "license": "MIT",
+  "homepage": "https://github.com/cijiugechu/astro-satori",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:cijiugechu/astro-satori.git"
+  },
+  "bugs": "https://github.com/cijiugechu/astro-satori/issues",
+  "devDependencies": {
+    "@playwright/test": "^1.33.0",
+    "@types/node": "^18.11.18",
+    "astro": "^2.4.4",
+    "tsup": "^6.7.0",
+    "typescript": "^4.9.5",
+    "vite": "^4.3.8"
+  },
+  "dependencies": {
+    "@playwright/test": ">=1.14.0",
+    "kleur": "^4.1.5",
+    "parse5": "^7.1.2",
+    "xxhash-wasm": "^1.0.2"
+  }
+}

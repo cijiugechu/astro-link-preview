@@ -1,0 +1,23 @@
+{
+  "name": "playground",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^2.4.4",
+    "astro-link-preview": "workspace:*",
+    "@astrojs/markdown-remark": "^2.2.0",
+    "hast-util-select": "5.0.5",
+    "rehype-autolink-headings": "^6.1.1",
+    "rehype-slug": "^5.0.1",
+    "rehype-toc": "^3.0.2",
+    "remark-code-titles": "^0.1.2"
+  }
+}

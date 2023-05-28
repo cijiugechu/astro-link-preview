@@ -1,0 +1,16 @@
+---
+import Layout from '../layouts/main.astro'
+import { Link } from 'astro-link-preview'
+
+const content = {
+  title: 'link preview',
+  lang: 'en'
+}
+
+---
+
+<Layout content={content}>
+  <Link href="https://www.baidu.com">
+     external link
+    </Link>
+</Layout>
