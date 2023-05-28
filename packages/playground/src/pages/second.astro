@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/main.astro'
+import { Link } from 'astro-link-preview'
+
+const content = {
+  title: 'link preview',
+  lang: 'en'
+}
+
+---
+
+<Layout content={content}>
+  <Link href="https://docs.astro.build/en/getting-started/">
+     same link
+  </Link>
+
+  <Link href="https://github.com/cijiugechu">
+    cijiugechu's profile
+  </Link>
+  
+</Layout>

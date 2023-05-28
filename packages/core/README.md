@@ -1,16 +1,16 @@
-# astro-satori
+# astro-link-preview
 
-This `Astro` integration brings open graph images to your project, powered by [satori](https://github.com/vercel/satori)
+This `Astro` integration generates preview images for your links.
 
-## Install
+## Installation
 
 ```shell
 # Using NPM
-npx astro add astro-satori
+npm install astro-link-preview
 # Using Yarn
-yarn astro add astro-satori
+yarn add astro-link-preview
 # Using PNPM
-pnpx astro add astro-satori
+pnpm add astro-link-preview
 ```
 
 ## Config
@@ -18,91 +18,24 @@ pnpx astro add astro-satori
 ```js
 // astro.config.mjs
 import {defineConfig} from "astro/config"
-import satori from "astro-satori"
+import linkPreview from "astro-link-preview/integration"
 export default defineConfig({
   integrations: [
-    satori({})
+    linkPreview()
   ],
 })
 ```
 
-#### satoriOptionsFactory
+## Usage
 
-Generate your own `satori` options by passing a function, if you do not provide this option, `astro-satori` will provide you with a default option.
+```astro
+---
+import { Link } from 'astro-link-preview';
+---
 
-`astro.config.mjs`
-
-```js
-import {defineConfig} from "astro/config"
-import satori from "astro-satori"
-export default defineConfig({
-  integrations: [
-    satori({
-      satoriOptionsFactory: async () => {
-        const fontFileRegular = await fetch(
-          'https://www.1001fonts.com/download/font/ibm-plex-mono.regular.ttf'
-        )
-        const fontRegular: ArrayBuffer = await fontFileRegular.arrayBuffer()
-
-        const fontFileBold = await fetch(
-          'https://www.1001fonts.com/download/font/ibm-plex-mono.bold.ttf'
-        )
-        const fontBold: ArrayBuffer = await fontFileBold.arrayBuffer()
-
-        const options = {
-          width: 1200,
-          height: 630,
-          embedFont: true,
-          fonts: [
-            {
-              name: 'IBM Plex Mono',
-              data: fontRegular,
-              weight: 400,
-              style: 'normal',
-            },
-            {
-              name: 'IBM Plex Mono',
-              data: fontBold,
-              weight: 600,
-              style: 'normal',
-            },
-          ],
-        }
-
-        return options
-      }
-    })
-  ],
-})
-```
-
-#### satoriElement
-
-Generate your own satori Element, if you do not provide this option, `astro-satori` will provide you with a default element.
-
-`astro.config.mjs`
-
-```js
-import {defineConfig} from "astro/config"
-import satori from "astro-satori"
-export default defineConfig({
-  integrations: [
-    satori({
-      satoriElement: ({ title, author, description }) => {
-        return {
-          type: 'div',
-          props: {
-            children: [
-              title,
-              author,
-              description
-            ]
-          }
-        }
-      }
-    })
-  ],
-})
+<Link href="https://docs.astro.build/en/getting-started/">
+  external link
+</Link>
 ```
 
 ## How to use

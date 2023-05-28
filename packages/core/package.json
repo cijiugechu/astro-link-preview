@@ -1,7 +1,7 @@
 {
   "name": "astro-link-preview",
   "version": "0.1.0",
-  "description": "This Astro integration brings satori to your Astro project.",
+  "description": "This Astro integration generates preview images for your links.",
   "private": false,
   "type": "module",
   "exports": {
@@ -32,12 +32,12 @@
   ],
   "author": "nemurubaka",
   "license": "MIT",
-  "homepage": "https://github.com/cijiugechu/astro-satori",
+  "homepage": "https://github.com/cijiugechu/astro-link-preview",
   "repository": {
     "type": "git",
-    "url": "git@github.com:cijiugechu/astro-satori.git"
+    "url": "git@github.com:cijiugechu/astro-link-preview.git"
   },
-  "bugs": "https://github.com/cijiugechu/astro-satori/issues",
+  "bugs": "https://github.com/cijiugechu/astro-link-preview/issues",
   "devDependencies": {
     "@playwright/test": "^1.33.0",
     "@types/node": "^18.11.18",
