@@ -2,6 +2,8 @@
 
 This `Astro` integration generates preview images for your links.
 
+![demo](/assets/demo.gif)
+
 ## Installation
 
 ```shell
