@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url'
 import { chromium } from '@playwright/test'
 import xxhash from 'xxhash-wasm'
 import type { Options } from './types'
+import { Logger } from './logger'
 
 export function nodeIsElement(
   node: DefaultTreeAdapterMap['node']
@@ -46,11 +47,17 @@ const generateImage = async (href: string) => {
   return imageBuf
 }
 
-const integration = (options: Options): AstroIntegration => {
+const integration = (options: Options = {}): AstroIntegration => {
+  const { logStats = true } = options
+
+  const logger = Logger(logStats)
+
   return {
     name: 'astro-link-preview',
     hooks: {
       'astro:build:done': async ({ routes, dir }) => {
+        logger.info(`[astro-link-preview]: Generating preview images...`)
+
         const hrefs = routes.map(r => r.distURL.href)
 
         const documents = await Promise.all(hrefs.map(parseHtml))

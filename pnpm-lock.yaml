@@ -23,7 +23,7 @@ importers:
         specifier: '>=1.14.0'
         version: 1.33.0
       kleur:
-        specifier: ^4.1.5
+        specifier: ^4.1.4
         version: 4.1.5
       parse5:
         specifier: ^7.1.2
