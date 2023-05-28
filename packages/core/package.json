@@ -47,6 +47,7 @@
     "vite": "^4.3.8"
   },
   "dependencies": {
+    "@napi-rs/image": "^1.6.1",
     "@playwright/test": ">=1.14.0",
     "kleur": "^4.1.4",
     "parse5": "^7.1.2",

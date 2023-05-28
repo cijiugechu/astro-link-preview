@@ -7,6 +7,7 @@ import xxhash from 'xxhash-wasm'
 import type { Options } from './types'
 import { Logger } from './logger'
 import { GenerateService } from './generate'
+import { optimize } from './optimize'
 
 export function nodeIsElement(
   node: DefaultTreeAdapterMap['node']
@@ -87,7 +88,7 @@ const integration = (options: Options = {}): AstroIntegration => {
 
                 linkCache.add(href)
 
-                const imageBuf = await generator.generate(href)
+                const imageBuf = await generator.generate(href).then(optimize)
                 const hashed = (await xxhash()).h32(href)
                 await writeFile(new URL(`./${hashed}.png`, dir), imageBuf)
               }

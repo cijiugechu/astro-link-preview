@@ -19,6 +19,9 @@ importers:
 
   packages/core:
     dependencies:
+      '@napi-rs/image':
+        specifier: ^1.6.1
+        version: 1.6.1
       '@playwright/test':
         specifier: '>=1.14.0'
         version: 1.33.0
@@ -583,6 +586,132 @@ packages:
 
   /@ljharb/has-package-exports-patterns@0.0.2:
     resolution: {integrity: sha512-4/RWEeXDO6bocPONheFe6gX/oQdP/bEpv0oL4HqjPP5DCenBSt0mHgahppY49N0CpsaqffdwPq+TlX9CYOq2Dw==}
+
+  /@napi-rs/image-android-arm-eabi@1.6.1:
+    resolution: {integrity: sha512-06GgTsnTzd+LQbj1EVciU4kOP7dUL40y3+vZkMe5yYNNdL8F199tnDxGodL8UYjHKrz+shKdZxjzq3ppE12dNg==}
+    engines: {node: '>= 10'}
+    cpu: [arm]
+    os: [android]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@napi-rs/image-android-arm64@1.6.1:
+    resolution: {integrity: sha512-RjjupJNodv1beIHEIk6CPwzzQHexy9G1KT/xce3PDV+r2RwOaZ5uisAoZeUQMpJ7U9yM8qEqBYJ0ZJRxOL3IyA==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [android]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@napi-rs/image-darwin-arm64@1.6.1:
+    resolution: {integrity: sha512-7SDYifSZPDa1TnDAxh641Qp8bB6XwLRMzboqlib9VVfW4B+xG8USTFX+pyc7AGA6Qt9YDx0fCTstGTdQZ4x0Vg==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@napi-rs/image-darwin-x64@1.6.1:
+    resolution: {integrity: sha512-JESPPgW1IVKyMk/jzLmbbE/WcJ9GliUljWNpTaZftTISPibQ0kXLFWITTpvKKGXOi1wqHw2HNo+xPwaBViRYPQ==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@napi-rs/image-freebsd-x64@1.6.1:
+    resolution: {integrity: sha512-uHe50MR6fHROzrOVv2lKowo0fnm51rZFQUgjBrb4U7sRof5MH6yXkiikd0zEVbqbK16JybCJhx8JMxg1fStOSw==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [freebsd]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@napi-rs/image-linux-arm-gnueabihf@1.6.1:
+    resolution: {integrity: sha512-MioNufx/KaMg4ksisp2/5fwnKj+Le0jF9DKgdckVKd/OnHASTATYQN4akXXejMgcDdKyiInGtmcHK1N4Z29HKQ==}
+    engines: {node: '>= 10'}
+    cpu: [arm]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@napi-rs/image-linux-arm64-gnu@1.6.1:
+    resolution: {integrity: sha512-TIq7dgKs15r1JdBxJYKf6YVAydtsoOEdBvfWITd8zIN1VAM3J0B5/efCDf9TWOSeh5j6Do2HrgzUWa0SF8wakA==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@napi-rs/image-linux-arm64-musl@1.6.1:
+    resolution: {integrity: sha512-vSF6bNrWbKADS4lnapX7dwYwLCduG2HMhDzLx/q8a7eDVDfqXCvAhRTcvOeNkQRQ7vmzyYpu3qsjI36IK7Y60w==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@napi-rs/image-linux-x64-gnu@1.6.1:
+    resolution: {integrity: sha512-a0ChzvNRF4uwSGCnBuLDFTGrBHlaltEeRsd1kU4c7+d27qs7LFi89oDrVXItM/t+OVD4svPx4zyUQXtHHuVU7w==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@napi-rs/image-linux-x64-musl@1.6.1:
+    resolution: {integrity: sha512-4mZ0pGP3tFidnKqVhbon48jX0+BddAE2ZiEtfXNypOx25pizVec1sSgHACKgFV9Yn0bVEGZozjxYeoERCUkdyA==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@napi-rs/image-win32-ia32-msvc@1.6.1:
+    resolution: {integrity: sha512-0XNbGAv17xYfo2mrS8jSVpJN8nJrdqimr/1aUojPO9HdYIdKYBNWz1o5qulolaPJqa+T72yEevnuhkgmLxJLsA==}
+    engines: {node: '>= 10'}
+    cpu: [ia32]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@napi-rs/image-win32-x64-msvc@1.6.1:
+    resolution: {integrity: sha512-hvQT+YID51JSxr9HbxmhKa8Y4jZh+4nxJZ33H0NhT/xFd6bGa4+EcIjMNqixKU8PmO9BYjEVH8FWHev6AEvp4A==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@napi-rs/image@1.6.1:
+    resolution: {integrity: sha512-idrYU7POm9T7dcZVkWN8kpFYNIj0XaT20LtTzwWGZsR5Dhsce0hxwVGnKg2Kq/Z/AhHkR6MDagkOX5qTl5LjoQ==}
+    engines: {node: '>= 10'}
+    optionalDependencies:
+      '@napi-rs/image-android-arm-eabi': 1.6.1
+      '@napi-rs/image-android-arm64': 1.6.1
+      '@napi-rs/image-darwin-arm64': 1.6.1
+      '@napi-rs/image-darwin-x64': 1.6.1
+      '@napi-rs/image-freebsd-x64': 1.6.1
+      '@napi-rs/image-linux-arm-gnueabihf': 1.6.1
+      '@napi-rs/image-linux-arm64-gnu': 1.6.1
+      '@napi-rs/image-linux-arm64-musl': 1.6.1
+      '@napi-rs/image-linux-x64-gnu': 1.6.1
+      '@napi-rs/image-linux-x64-musl': 1.6.1
+      '@napi-rs/image-win32-ia32-msvc': 1.6.1
+      '@napi-rs/image-win32-x64-msvc': 1.6.1
+    dev: false
 
   /@nodelib/fs.scandir@2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
