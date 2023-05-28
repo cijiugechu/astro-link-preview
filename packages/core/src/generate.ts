@@ -1,7 +1,15 @@
 import { chromium } from '@playwright/test'
+import type { LaunchOptions } from '@playwright/test'
 
-const GenerateService = async () => {
-  const browser = await chromium.launch()
+interface GenerateServiceOptions {
+  proxy?: LaunchOptions['proxy']
+}
+const GenerateService = async (options: GenerateServiceOptions = {}) => {
+  const { proxy } = options
+
+  const browser = await chromium.launch({
+    proxy,
+  })
 
   return {
     generate: async (href: string) => {

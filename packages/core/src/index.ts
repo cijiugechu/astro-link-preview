@@ -37,7 +37,7 @@ const parseHtml = (pathHref: string) => {
 }
 
 const integration = (options: Options = {}): AstroIntegration => {
-  const { logStats = true } = options
+  const { logStats = true, proxy } = options
 
   const logger = Logger(logStats)
 
@@ -56,7 +56,7 @@ const integration = (options: Options = {}): AstroIntegration => {
 
         const documents = await Promise.all(hrefs.map(parseHtml))
 
-        const generator = await GenerateService()
+        const generator = await GenerateService({ proxy })
 
         await Promise.all(
           documents.map(doc => {
