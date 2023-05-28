@@ -4,7 +4,7 @@ import LinkPreview from 'astro-link-preview/integration'
 
 // https://astro.build/config
 export default defineConfig({
-  base: '/astro-satori',
+  base: '/astro-link-preview',
   site: 'https://cijiugechu.github.io/',
   // Enable Custom Markdown options, plugins, etc.
   markdown: {
