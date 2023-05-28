@@ -10,7 +10,14 @@ const content = {
 ---
 
 <Layout content={content}>
-  <Link href="https://www.baidu.com">
-     external link
+  <Link href="https://docs.astro.build/en/getting-started/">
+     astro docs
+  </Link>
+
+  <p>
+    <Link href="/nemurubaka">
+      internal link
     </Link>
+    will not generate a preview
+  </p>
 </Layout>

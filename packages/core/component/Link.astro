@@ -2,6 +2,7 @@
 
 import type { HTMLAttributes } from 'astro/types'
 import xxhash from 'xxhash-wasm'
+import { isValidURL } from './utils'
 import './Link.css'
 
 
@@ -15,8 +16,9 @@ const { href, ...rest } = Astro.props
 
 const stringURL = typeof href === 'string' ? href : href.href
 
-const hashed = (await xxhash()).h32(stringURL)
+const isLinkValid = isValidURL(stringURL)
 
+const hashed = isLinkValid ? (await xxhash()).h32(stringURL) : 0
 
 ---
 
@@ -31,6 +33,10 @@ const hashed = (await xxhash()).h32(stringURL)
     item.addEventListener('mouseenter', e => {
       //@ts-ignore
       const hashed = item.dataset['linkPreview']
+
+      if(hashed === '0') {
+        return
+      }
 
       console.log(hashed)
 
@@ -59,6 +65,11 @@ const hashed = (await xxhash()).h32(stringURL)
     item.addEventListener('mouseleave', e => {
       //@ts-ignore
       const hashed = item.dataset['linkPreview']
+
+      if(hashed === '0') {
+        return
+      }
+
       const previewElement = document.getElementById(`image-${hashed}`)
 
       previewElement.classList.add('astro-link-preview_img--hidden')

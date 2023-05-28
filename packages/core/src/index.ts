@@ -66,6 +66,14 @@ const integration = (options: Options): AstroIntegration => {
                 node.tagName === 'a' &&
                 node.attrs.some(attr => attr.name === 'data-link-preview')
               ) {
+                const linkPreview = node.attrs.find(
+                  attr => attr.name === 'data-link-preview'
+                )?.value
+
+                if (linkPreview === '0') {
+                  return
+                }
+
                 const href = node.attrs.find(
                   attr => attr.name === 'href'
                 )?.value
