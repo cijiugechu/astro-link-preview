@@ -52,6 +52,11 @@ const integration = (options: Options = {}): AstroIntegration => {
 
   const logger = Logger(logStats)
 
+  /**
+   * cached links
+   */
+  const linkCache = new Set<string>()
+
   return {
     name: 'astro-link-preview',
     hooks: {
@@ -84,6 +89,12 @@ const integration = (options: Options = {}): AstroIntegration => {
                 const href = node.attrs.find(
                   attr => attr.name === 'href'
                 )?.value
+
+                if(linkCache.has(href)) {
+                  return
+                }
+
+                linkCache.add(href)
 
                 const imageBuf = await generateImage(href)
                 const hashed = (await xxhash()).h32(href)
