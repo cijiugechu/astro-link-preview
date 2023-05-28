@@ -3,10 +3,10 @@ import { parse } from 'parse5'
 import type { DefaultTreeAdapterMap } from 'parse5'
 import { readFile, writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
-import { chromium } from '@playwright/test'
 import xxhash from 'xxhash-wasm'
 import type { Options } from './types'
 import { Logger } from './logger'
+import { GenerateService } from './generate'
 
 export function nodeIsElement(
   node: DefaultTreeAdapterMap['node']
@@ -36,17 +36,6 @@ const parseHtml = (pathHref: string) => {
   )
 }
 
-const generateImage = async (href: string) => {
-  const browser = await chromium.launch()
-  const context = await browser.newContext()
-  const page = await context.newPage()
-  await page.goto(href)
-
-  const imageBuf = await page.screenshot()
-
-  return imageBuf
-}
-
 const integration = (options: Options = {}): AstroIntegration => {
   const { logStats = true } = options
 
@@ -66,6 +55,8 @@ const integration = (options: Options = {}): AstroIntegration => {
         const hrefs = routes.map(r => r.distURL.href)
 
         const documents = await Promise.all(hrefs.map(parseHtml))
+
+        const generator = await GenerateService()
 
         await Promise.all(
           documents.map(doc => {
@@ -90,19 +81,21 @@ const integration = (options: Options = {}): AstroIntegration => {
                   attr => attr.name === 'href'
                 )?.value
 
-                if(linkCache.has(href)) {
+                if (linkCache.has(href)) {
                   return
                 }
 
                 linkCache.add(href)
 
-                const imageBuf = await generateImage(href)
+                const imageBuf = await generator.generate(href)
                 const hashed = (await xxhash()).h32(href)
                 await writeFile(new URL(`./${hashed}.png`, dir), imageBuf)
               }
             })
           })
         )
+
+        await generator.dispose()
       },
     },
   }
