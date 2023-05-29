@@ -27,50 +27,52 @@ const hashed = isLinkValid ? (await xxhash()).h32(stringURL) : 0
 </a>
 
 <script>
-  const links = document.querySelectorAll('[data-link-preview]')
+  if(import.meta.env.PROD) {
+    const links = document.querySelectorAll('[data-link-preview]')
 
-  links.forEach(item => {
-    item.addEventListener('mouseenter', e => {
-      //@ts-ignore
-      const hashed = item.dataset['linkPreview']
-
-      if(hashed === '0') {
-        return
-      }
-
-      let previewElement: HTMLImageElement | null = null
-
-      const el = document.getElementById(`image-${hashed}`) as HTMLImageElement
-
-      if(el) {
-        previewElement = el
-        el.classList.remove('astro-link-preview_img--hidden')
-      }else{
-        previewElement = document.createElement('img')
-        previewElement.src = `${import.meta.env.BASE_URL}${hashed}.png`
-        previewElement.className = 'astro-link-preview_img'
-        previewElement.id = `image-${hashed}`
-        previewElement.style.position = 'fixed'
+    links.forEach(item => {
+      item.addEventListener('mouseenter', e => {
         //@ts-ignore
-        previewElement.style.left = `${e.clientX}px`
+        const hashed = item.dataset['linkPreview']
+
+        if(hashed === '0') {
+          return
+        }
+
+        let previewElement: HTMLImageElement | null = null
+
+        const el = document.getElementById(`image-${hashed}`) as HTMLImageElement
+
+        if(el) {
+          previewElement = el
+          el.classList.remove('astro-link-preview_img--hidden')
+        }else{
+          previewElement = document.createElement('img')
+          previewElement.src = `${import.meta.env.BASE_URL}${hashed}.png`
+          previewElement.className = 'astro-link-preview_img'
+          previewElement.id = `image-${hashed}`
+          previewElement.style.position = 'fixed'
+          //@ts-ignore
+          previewElement.style.left = `${e.clientX}px`
+          //@ts-ignore
+          previewElement.style.top = `${e.clientY}px`
+        }
+
+        document.body.appendChild(previewElement)
+      })
+
+      item.addEventListener('mouseleave', e => {
         //@ts-ignore
-        previewElement.style.top = `${e.clientY}px`
-      }
+        const hashed = item.dataset['linkPreview']
 
-      document.body.appendChild(previewElement)
+        if(hashed === '0') {
+          return
+        }
+
+        const previewElement = document.getElementById(`image-${hashed}`)
+
+        previewElement.classList.add('astro-link-preview_img--hidden')
+      })
     })
-
-    item.addEventListener('mouseleave', e => {
-      //@ts-ignore
-      const hashed = item.dataset['linkPreview']
-
-      if(hashed === '0') {
-        return
-      }
-
-      const previewElement = document.getElementById(`image-${hashed}`)
-
-      previewElement.classList.add('astro-link-preview_img--hidden')
-    })
-  })
+  }
 </script>
