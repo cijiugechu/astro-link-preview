@@ -32,9 +32,7 @@ async function traverseNodes(
 }
 
 const parseHtml = (pathHref: string) => {
-  return readFile(fileURLToPath(pathHref), { encoding: 'utf-8' }).then(html =>
-    parse(html)
-  )
+  return readFile(fileURLToPath(pathHref), { encoding: 'utf-8' }).then(parse)
 }
 
 const integration = (options: Options = {}): AstroIntegration => {
