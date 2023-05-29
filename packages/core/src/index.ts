@@ -8,6 +8,7 @@ import { Logger } from './logger'
 import { GenerateService } from './generate'
 import { optimize } from './optimize'
 import { nodeIsElement, traverseNodes } from './traverse'
+import { vitePlugin } from './vite-plugin-link-preview'
 
 const parseHtml = (pathHref: string) => {
   return readFile(fileURLToPath(pathHref), { encoding: 'utf-8' }).then(parse)
@@ -26,6 +27,14 @@ const integration = (options: Options = {}): AstroIntegration => {
   return {
     name: 'astro-link-preview',
     hooks: {
+      'astro:config:setup': ({ updateConfig }) => {
+        updateConfig({
+          vite: {
+            plugins: [vitePlugin({ proxy })],
+          },
+        })
+      },
+
       'astro:build:done': async ({ routes, dir }) => {
         logger.info(`[astro-link-preview]: Generating preview images...`)
 
