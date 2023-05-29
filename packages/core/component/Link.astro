@@ -38,8 +38,6 @@ const hashed = isLinkValid ? (await xxhash()).h32(stringURL) : 0
         return
       }
 
-      console.log(hashed)
-
       let previewElement: HTMLImageElement | null = null
 
       const el = document.getElementById(`image-${hashed}`) as HTMLImageElement
