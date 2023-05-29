@@ -1,6 +1,6 @@
 # astro-link-preview
 
-This `Astro` integration generates preview images for your links.
+This `Astro` integration generates preview images for external links.
 
 ![demo](/assets/demo.gif)
 
