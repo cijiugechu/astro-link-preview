@@ -1,6 +1,5 @@
 import type { AstroIntegration } from 'astro'
 import { parse } from 'parse5'
-import type { DefaultTreeAdapterMap } from 'parse5'
 import { readFile, writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import xxhash from 'xxhash-wasm'
@@ -8,28 +7,7 @@ import type { Options } from './types'
 import { Logger } from './logger'
 import { GenerateService } from './generate'
 import { optimize } from './optimize'
-
-export function nodeIsElement(
-  node: DefaultTreeAdapterMap['node']
-): node is DefaultTreeAdapterMap['element'] {
-  return node.nodeName[0] !== '#'
-}
-
-async function traverseNodes(
-  node: DefaultTreeAdapterMap['node'],
-  visitor: (node: DefaultTreeAdapterMap['node']) => Promise<void>
-) {
-  await visitor(node)
-  if (
-    nodeIsElement(node) ||
-    node.nodeName === '#document' ||
-    node.nodeName === '#document-fragment'
-  ) {
-    await Promise.all(
-      node.childNodes.map(childNode => traverseNodes(childNode, visitor))
-    )
-  }
-}
+import { nodeIsElement, traverseNodes } from './traverse'
 
 const parseHtml = (pathHref: string) => {
   return readFile(fileURLToPath(pathHref), { encoding: 'utf-8' }).then(parse)
