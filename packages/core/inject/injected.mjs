@@ -68,8 +68,16 @@ const links = Array.from(anchorElements).filter(
 )
 
 links.forEach(item => {
+  const hashed = (() => {
+    if (import.meta.env.PROD) {
+      return item.dataset['linkPreview']
+    }
+
+    return item.href
+  })()
+
   item.addEventListener('mouseenter', e => {
-    const hashed = item.dataset['linkPreview']
+    const href = item.href
 
     let previewElement = null
 
@@ -80,7 +88,11 @@ links.forEach(item => {
       el.classList.remove('astro-link-preview_img--hidden')
     } else {
       previewElement = document.createElement('img')
-      previewElement.src = `${import.meta.env.BASE_URL}${hashed}.png`
+
+      if (import.meta.env.PROD) {
+        previewElement.src = `${import.meta.env.BASE_URL}${hashed}.png`
+      }
+
       previewElement.className = 'astro-link-preview_img'
       previewElement.id = `image-${hashed}`
       previewElement.style.position = 'fixed'
@@ -91,11 +103,25 @@ links.forEach(item => {
     }
 
     document.body.appendChild(previewElement)
+
+    if (!import.meta.env.PROD) {
+      fetch(`/_astro-link-preview/${window.btoa(href)}`)
+        .then(r => {
+          if (r.ok) {
+            return r.blob()
+          } else {
+            return null
+          }
+        })
+        .then(blob => {
+          if (blob) {
+            previewElement.src = URL.createObjectURL(blob)
+          }
+        })
+    }
   })
 
   item.addEventListener('mouseleave', e => {
-    const hashed = item.dataset['linkPreview']
-
     const previewElement = document.getElementById(`image-${hashed}`)
 
     previewElement.classList.add('astro-link-preview_img--hidden')
