@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config'
 import addClasses from './add-classes.mjs'
-import LinkPreview from 'astro-link-preview/integration'
+import LinkPreview from 'astro-link-preview'
 
 const isCI = !!process.env.CI
 

@@ -1,3 +1,4 @@
+const injectedCss = `
 .astro-link-preview_img {
   opacity: 0;
   height: 0;
@@ -42,3 +43,6 @@
     height: 0;
   }
 }
+`
+
+export { injectedCss }
