@@ -1,11 +1,8 @@
 import { chromium } from '@playwright/test'
-import type { LaunchOptions } from '@playwright/test'
+import { context } from './context'
 
-interface GenerateServiceOptions {
-  proxy?: LaunchOptions['proxy']
-}
-const GenerateService = async (options: GenerateServiceOptions = {}) => {
-  const { proxy } = options
+const GenerateService = async () => {
+  const { proxy, logger, imageFormat } = context.get()
 
   const browser = await chromium.launch({
     proxy,
@@ -15,10 +12,26 @@ const GenerateService = async (options: GenerateServiceOptions = {}) => {
     generate: async (href: string) => {
       const context = await browser.newContext()
       const page = await context.newPage()
-      await page.goto(href)
-      const imageBuf = await page.screenshot()
+      try {
+        await page.goto(href)
+        const imageBuf = await page.screenshot(
+          imageFormat === 'jpg'
+            ? {
+                type: 'jpeg',
+                quality: 75,
+              }
+            : {
+                type: 'png',
+              }
+        )
 
-      return imageBuf
+        return imageBuf
+      } catch (e) {
+        logger.error(
+          `Crashed while trying to generate the screenshot of ${href}\n${e.message}`
+        )
+        return Buffer.from([])
+      }
     },
 
     dispose: async () => {

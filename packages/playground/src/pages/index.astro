@@ -1,6 +1,5 @@
 ---
 import Layout from '../layouts/main.astro'
-import { Link } from 'astro-link-preview'
 
 const content = {
   title: 'link preview',
@@ -10,14 +9,14 @@ const content = {
 ---
 
 <Layout content={content}>
-  <Link href="https://docs.astro.build/en/getting-started/">
+  <a href="https://docs.astro.build/en/getting-started/">
      astro docs
-  </Link>
+  </a>
 
   <p>
-    <Link href="/nemurubaka">
+    <a href="/nemurubaka">
       internal link
-    </Link>
+    </a>
     will not generate a preview
   </p>
 </Layout>

@@ -4,19 +4,17 @@
   "description": "This Astro integration generates preview images for external links.",
   "private": false,
   "type": "module",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./index.ts",
-    "./integration": "./dist/index.mjs"
+    ".": "./dist/index.mjs"
   },
   "engines": {
     "node": ">=16.0.0"
   },
   "files": [
-    "dist",
-    "component"
+    "dist"
   ],
   "scripts": {
-    "build:component": "node ./build-component.mjs",
     "build:debug": "tsup --config tsup.debug.ts",
     "build": "tsup --config tsup.config.ts",
     "install-playwright-deps": "playwright install --with-deps chromium",
@@ -49,8 +47,8 @@
   "dependencies": {
     "@napi-rs/image": "^1.6.1",
     "@playwright/test": ">=1.14.0",
+    "html-rewriter-wasm": "^0.4.1",
     "kleur": "^4.1.4",
-    "parse5": "^7.1.2",
     "xxhash-wasm": "^1.0.2"
   }
 }

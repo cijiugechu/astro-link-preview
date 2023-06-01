@@ -11,4 +11,5 @@ export default defineConfig({
       js: '.mjs',
     }
   },
+  publicDir: 'inject',
 })

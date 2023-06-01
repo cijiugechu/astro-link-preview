@@ -10,11 +10,9 @@ export interface Options {
    * proxy settings
    */
   proxy?: LaunchOptions['proxy']
-}
-
-export interface VitePluginOptions {
   /**
-   * proxy settings
+   * preview image format
+   * @default 'jpg'
    */
-  proxy?: LaunchOptions['proxy']
+  previewImageFormat?: 'png' | 'jpg'
 }

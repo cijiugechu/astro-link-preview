@@ -1,6 +1,8 @@
 import { defineConfig } from 'astro/config'
 import addClasses from './add-classes.mjs'
-import LinkPreview from 'astro-link-preview/integration'
+import LinkPreview from 'astro-link-preview'
+
+const isCI = !!process.env.CI
 
 // https://astro.build/config
 export default defineConfig({
@@ -16,5 +18,13 @@ export default defineConfig({
       [addClasses, { 'h1,h2,h3': 'title' }],
     ],
   },
-  integrations: [LinkPreview()],
+  integrations: [
+    LinkPreview({
+      proxy: isCI
+        ? undefined
+        : {
+            server: 'http://127.0.0.1:7890',
+          },
+    }),
+  ],
 })

@@ -2,6 +2,8 @@ import kleur from 'kleur'
 
 const noop = () => {}
 
+const prefix = '[astro-link-preview]:'
+
 const Logger = (logStats: boolean) => {
   if (!logStats) {
     return {
@@ -12,15 +14,17 @@ const Logger = (logStats: boolean) => {
   }
   return {
     info: (message: string) => {
-      console.log(kleur.bgGreen(message))
+      console.log(kleur.bgGreen(prefix), message)
     },
     warn: (message: string) => {
-      console.log(kleur.bgYellow(message))
+      console.warn(kleur.bgYellow(prefix), message)
     },
     error: (message: string) => {
-      console.log(kleur.bgRed(message))
+      console.error(kleur.bgRed(prefix), message)
     },
   }
 }
+
+export type LoggerType = ReturnType<typeof Logger>
 
 export { Logger }

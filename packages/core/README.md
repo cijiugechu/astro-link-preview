@@ -20,7 +20,7 @@ pnpm add astro-link-preview
 ```js
 // astro.config.mjs
 import {defineConfig} from "astro/config"
-import linkPreview from "astro-link-preview/integration"
+import linkPreview from "astro-link-preview"
 export default defineConfig({
   integrations: [
     linkPreview()
@@ -28,17 +28,6 @@ export default defineConfig({
 })
 ```
 
-## Usage
-
-```astro
----
-import { Link } from 'astro-link-preview';
----
-
-<Link href="https://docs.astro.build/en/getting-started/">
-  external link
-</Link>
-```
 
 ## Options 
 
