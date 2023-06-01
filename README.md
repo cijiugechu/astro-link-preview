@@ -44,6 +44,11 @@ export interface Options {
    * proxy settings
    */
   proxy?: LaunchOptions['proxy']
+  /**
+   * preview image format
+   * @default 'jpg'
+   */
+  previewImageFormat?: 'png' | 'jpg'
 }
 ```
 
