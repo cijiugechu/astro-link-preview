@@ -11,8 +11,7 @@
     "node": ">=16.0.0"
   },
   "files": [
-    "dist",
-    "component"
+    "dist"
   ],
   "scripts": {
     "build:debug": "tsup --config tsup.debug.ts",
