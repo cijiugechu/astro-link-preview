@@ -20,8 +20,10 @@ const integration = (options: Options = {}): AstroIntegration => {
 
   const logger = Logger(logStats)
 
-  context.logger = logger
-  context.proxy = proxy
+  context.set({
+    logger,
+    proxy,
+  })
 
   /**
    * cached links

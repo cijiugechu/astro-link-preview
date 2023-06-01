@@ -2,7 +2,7 @@ import { chromium } from '@playwright/test'
 import { context } from './context'
 
 const GenerateService = async () => {
-  const { proxy, logger } = context
+  const { proxy, logger } = context.get()
 
   const browser = await chromium.launch({
     proxy,

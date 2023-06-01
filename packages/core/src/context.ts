@@ -6,6 +6,17 @@ interface Context {
   proxy: LaunchOptions['proxy']
 }
 
-let context = {} as Context
+const createContext = () => {
+  let __ctx: Context
+
+  return {
+    set: (ctx: Context) => {
+      __ctx = ctx
+    },
+    get: () => __ctx,
+  }
+}
+
+const context = createContext()
 
 export { context }
