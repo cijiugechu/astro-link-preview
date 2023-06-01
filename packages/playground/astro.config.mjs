@@ -18,9 +18,13 @@ export default defineConfig({
       [addClasses, { 'h1,h2,h3': 'title' }],
     ],
   },
-  integrations: [LinkPreview({
-    proxy: isCI ? undefined : {
-      server: 'http://127.0.0.1:7890',
-    }
-  })],
+  integrations: [
+    LinkPreview({
+      proxy: isCI
+        ? undefined
+        : {
+            server: 'http://127.0.0.1:7890',
+          },
+    }),
+  ],
 })

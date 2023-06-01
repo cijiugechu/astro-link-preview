@@ -9,6 +9,7 @@ import { GenerateService } from './generate'
 import { optimize } from './optimize'
 import { nodeIsElement, traverseNodes } from './traverse'
 import { vitePlugin } from './vite-plugin-link-preview'
+import { context } from './context'
 
 const parseHtml = (pathHref: string) => {
   return readFile(fileURLToPath(pathHref), { encoding: 'utf-8' }).then(parse)
@@ -18,6 +19,9 @@ const integration = (options: Options = {}): AstroIntegration => {
   const { logStats = true, proxy } = options
 
   const logger = Logger(logStats)
+
+  context.logger = logger
+  context.proxy = proxy
 
   /**
    * cached links
@@ -30,7 +34,7 @@ const integration = (options: Options = {}): AstroIntegration => {
       'astro:config:setup': ({ updateConfig }) => {
         updateConfig({
           vite: {
-            plugins: [vitePlugin({ proxy })],
+            plugins: [vitePlugin()],
           },
         })
       },
@@ -42,7 +46,7 @@ const integration = (options: Options = {}): AstroIntegration => {
 
         const documents = await Promise.all(hrefs.map(parseHtml))
 
-        const generator = await GenerateService({ proxy })
+        const generator = await GenerateService()
 
         await Promise.all(
           documents.map(doc => {

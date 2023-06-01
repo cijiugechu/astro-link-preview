@@ -1,10 +1,7 @@
 import type { Plugin } from 'vite'
-import type { VitePluginOptions } from './types'
 import { GenerateService } from './generate'
 
-const vitePlugin = (options: VitePluginOptions = {}): Plugin => {
-  const { proxy } = options
-
+const vitePlugin = (): Plugin => {
   let generator: Awaited<ReturnType<typeof GenerateService>>
 
   return {
@@ -13,9 +10,7 @@ const vitePlugin = (options: VitePluginOptions = {}): Plugin => {
     apply: 'serve',
 
     async buildStart() {
-      generator = await GenerateService({
-        proxy,
-      })
+      generator = await GenerateService()
     },
 
     configureServer(server) {
@@ -25,7 +20,6 @@ const vitePlugin = (options: VitePluginOptions = {}): Plugin => {
         const url = req.url
 
         if (url.startsWith('/_astro-link-preview')) {
-          
           if (urlCache.has(url)) {
             res.statusCode = 503
             res.end()
@@ -36,6 +30,12 @@ const vitePlugin = (options: VitePluginOptions = {}): Plugin => {
           const rawHref = atob(url.replace('/_astro-link-preview/', ''))
 
           generator.generate(rawHref).then(buf => {
+            if (buf.length === 0) {
+              res.statusCode = 503
+              res.end()
+              return
+            }
+
             res.setHeader('Content-Type', `application/octet-stream`)
             res.setHeader('Cache-Control', 'max-age=360000')
             res.end(buf)

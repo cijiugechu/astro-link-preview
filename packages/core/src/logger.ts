@@ -23,4 +23,6 @@ const Logger = (logStats: boolean) => {
   }
 }
 
+export type LoggerType = ReturnType<typeof Logger>
+
 export { Logger }
