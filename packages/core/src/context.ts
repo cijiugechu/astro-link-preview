@@ -4,6 +4,7 @@ import type { LaunchOptions } from '@playwright/test'
 interface Context {
   logger: LoggerType
   proxy: LaunchOptions['proxy']
+  imageFormat: 'png' | 'jpg'
 }
 
 const createContext = () => {

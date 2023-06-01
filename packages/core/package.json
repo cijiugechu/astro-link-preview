@@ -4,6 +4,7 @@
   "description": "This Astro integration generates preview images for external links.",
   "private": false,
   "type": "module",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": "./dist/index.mjs"
   },

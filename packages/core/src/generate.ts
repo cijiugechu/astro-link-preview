@@ -2,7 +2,7 @@ import { chromium } from '@playwright/test'
 import { context } from './context'
 
 const GenerateService = async () => {
-  const { proxy, logger } = context.get()
+  const { proxy, logger, imageFormat } = context.get()
 
   const browser = await chromium.launch({
     proxy,
@@ -14,7 +14,16 @@ const GenerateService = async () => {
       const page = await context.newPage()
       try {
         await page.goto(href)
-        const imageBuf = await page.screenshot()
+        const imageBuf = await page.screenshot(
+          imageFormat === 'jpg'
+            ? {
+                type: 'jpeg',
+                quality: 75,
+              }
+            : {
+                type: 'png',
+              }
+        )
 
         return imageBuf
       } catch (e) {

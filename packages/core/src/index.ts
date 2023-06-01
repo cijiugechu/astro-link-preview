@@ -60,13 +60,18 @@ const parseAndWrite = async (pathHref: string, cache: Map<string, number>) => {
 }
 
 const integration = (options: Options = {}): AstroIntegration => {
-  const { logStats = true, proxy } = options
+  const { logStats = true, proxy, previewImageFormat = 'jpg' } = options
+
+  if (!['jpg', 'png'].includes(previewImageFormat)) {
+    throw new Error(`Invalid preview image format: ${previewImageFormat}`)
+  }
 
   const logger = Logger(logStats)
 
   context.set({
     logger,
     proxy,
+    imageFormat: previewImageFormat,
   })
 
   /**
@@ -78,7 +83,14 @@ const integration = (options: Options = {}): AstroIntegration => {
     name: 'astro-link-preview',
     hooks: {
       'astro:config:setup': ({ updateConfig, injectScript }) => {
-        injectScript('page', injectedScript)
+        if (previewImageFormat === 'jpg') {
+          injectScript(
+            'page',
+            injectedScript.replace('{hashed}.png', '{hashed}.jpg')
+          )
+        } else {
+          injectScript('page', injectedScript)
+        }
 
         updateConfig({
           vite: {
@@ -103,7 +115,10 @@ const integration = (options: Options = {}): AstroIntegration => {
         await Promise.all(
           arr.map(async ([href, hashed]) => {
             const imageBuf = await generator.generate(href).then(optimize)
-            await writeFile(new URL(`./${hashed}.png`, dir), imageBuf)
+            await writeFile(
+              new URL(`./${hashed}.${previewImageFormat}`, dir),
+              imageBuf
+            )
           })
         )
 
