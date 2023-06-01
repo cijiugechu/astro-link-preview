@@ -40,7 +40,7 @@ const integration = (options: Options = {}): AstroIntegration => {
       },
 
       'astro:build:done': async ({ routes, dir }) => {
-        logger.info(`[astro-link-preview]: Generating preview images...`)
+        logger.info(`Generating preview images...`)
 
         const hrefs = routes.map(r => r.distURL.href)
 

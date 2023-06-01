@@ -1,5 +1,4 @@
 import { chromium } from '@playwright/test'
-import type { LaunchOptions } from '@playwright/test'
 import { context } from './context'
 
 const GenerateService = async () => {
@@ -20,7 +19,7 @@ const GenerateService = async () => {
         return imageBuf
       } catch (e) {
         logger.error(
-          `[astro-link-preview]: Crashed while trying to generate the screenshot of ${href}\n${e.message}`
+          `Crashed while trying to generate the screenshot of ${href}\n${e.message}`
         )
         return Buffer.from([])
       }
