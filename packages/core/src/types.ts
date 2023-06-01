@@ -11,10 +11,3 @@ export interface Options {
    */
   proxy?: LaunchOptions['proxy']
 }
-
-export interface VitePluginOptions {
-  /**
-   * proxy settings
-   */
-  proxy?: LaunchOptions['proxy']
-}
