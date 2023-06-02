@@ -6,6 +6,7 @@ export default defineConfig({
   dts: true,
   clean: true,
   minify: false,
+  target: ['node16'],
   outExtension: () => {
     return {
       js: '.mjs',

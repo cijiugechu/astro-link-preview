@@ -7,6 +7,7 @@ export default defineConfig({
   sourcemap: true,
   minify: false,
   clean: true,
+  target: ['node16'],
   outExtension: () => {
     return {
       js: '.mjs',
