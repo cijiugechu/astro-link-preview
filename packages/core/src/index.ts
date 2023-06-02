@@ -1,4 +1,4 @@
-import type { AstroIntegration } from 'astro'
+import type { AstroIntegration, AstroConfig } from 'astro'
 import { readFile, writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import xxhash from 'xxhash-wasm'
@@ -59,6 +59,23 @@ const parseAndWrite = async (pathHref: string, cache: Map<string, number>) => {
   }
 }
 
+const calcPagePaths = (
+  pages: { pathname: string }[],
+  buildFormat: 'file' | 'directory'
+) => {
+  
+  if (buildFormat === 'directory') {
+    return pages.map(page => `${page.pathname}index.html`)
+  }
+
+  return pages.map(page => {
+    if (page.pathname === '' || page.pathname.endsWith('/')) {
+      return `${page.pathname}index.html`
+    }
+    return `${page.pathname}.html`
+  })
+}
+
 const integration = (options: Options = {}): AstroIntegration => {
   const { logStats = true, proxy, previewImageFormat = 'jpg' } = options
 
@@ -78,6 +95,8 @@ const integration = (options: Options = {}): AstroIntegration => {
    * cache links and hashes
    */
   const linkAndHashCache = new Map<string, number>()
+
+  let astroConfig: AstroConfig
 
   return {
     name: 'astro-link-preview',
@@ -99,12 +118,16 @@ const integration = (options: Options = {}): AstroIntegration => {
         })
       },
 
-      'astro:build:done': async ({ routes, dir }) => {
+      'astro:config:done': ({ config }) => {
+        astroConfig = config
+      },
+
+      'astro:build:done': async ({ dir, pages }) => {
         logger.info(`Generating preview images...`)
 
-        const hrefs = routes
-          .map(r => r.distURL.href)
-          .filter(href => href.endsWith('.html'))
+        const hrefs = calcPagePaths(pages, astroConfig.build.format)
+          .map(path => new URL(path, dir).href)
+          .filter(h => h.endsWith('.html'))
 
         await Promise.all(
           hrefs.map(href => parseAndWrite(href, linkAndHashCache))
