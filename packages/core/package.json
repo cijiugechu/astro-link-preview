@@ -50,5 +50,8 @@
     "html-rewriter-wasm": "^0.4.1",
     "kleur": "^4.1.4",
     "xxhash-wasm": "^1.0.2"
+  },
+  "peerDependencies": {
+    "astro": ">=2.0.0"
   }
 }
