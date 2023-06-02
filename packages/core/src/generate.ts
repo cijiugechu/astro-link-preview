@@ -25,11 +25,16 @@ const GenerateService = async () => {
               }
         )
 
+        await context.close()
+
         return imageBuf
       } catch (e) {
         logger.error(
           `Crashed while trying to generate the screenshot of ${href}\n${e.message}`
         )
+
+        await context.close()
+
         return Buffer.from([])
       }
     },

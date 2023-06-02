@@ -7,6 +7,7 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
+    "build:debug": "node --inspect-brk ./node_modules/astro/astro.js build",
     "preview": "astro preview",
     "astro": "astro"
   },
