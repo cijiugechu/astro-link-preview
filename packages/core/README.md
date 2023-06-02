@@ -8,7 +8,9 @@
   </a>
 </p>
 
-This `Astro` integration generates preview images for external links.
+<p align="center">
+This <code>Astro</code> integration generates preview images for external links.
+</p>
 
 ![demo](../../assets/demo.gif)
 
