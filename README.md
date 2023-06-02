@@ -9,8 +9,12 @@
 </p>
 
 <p align="center">
-This <code>Astro</code> integration generates preview images for external links.
+  <strong>
+  This <code>Astro</code> integration generates preview images for external links.
+  </strong>
 </p>
+
+<br>
 
 ![demo](/assets/demo.gif)
 
