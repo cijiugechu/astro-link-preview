@@ -85,6 +85,8 @@ links.forEach(item => {
 
     if (el) {
       previewElement = el
+      previewElement.style.left = `${e.clientX}px`
+      previewElement.style.top = `${e.clientY}px`
       el.classList.remove('astro-link-preview_img--hidden')
     } else {
       previewElement = document.createElement('img')
