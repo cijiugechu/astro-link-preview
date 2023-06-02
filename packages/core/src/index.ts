@@ -63,15 +63,25 @@ const calcPagePaths = (
   pages: { pathname: string }[],
   buildFormat: 'file' | 'directory'
 ) => {
-  
   if (buildFormat === 'directory') {
-    return pages.map(page => `${page.pathname}index.html`)
+    return pages.map(page => {
+      if (page.pathname === '404/') {
+        return '404.html'
+      }
+
+      return `${page.pathname}index.html`
+    })
   }
 
   return pages.map(page => {
     if (page.pathname === '' || page.pathname.endsWith('/')) {
       return `${page.pathname}index.html`
     }
+
+    if (page.pathname === '404') {
+      return '404.html'
+    }
+
     return `${page.pathname}.html`
   })
 }
