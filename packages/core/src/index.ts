@@ -102,7 +102,9 @@ const integration = (options: Options = {}): AstroIntegration => {
       'astro:build:done': async ({ routes, dir }) => {
         logger.info(`Generating preview images...`)
 
-        const hrefs = routes.map(r => r.distURL.href)
+        const hrefs = routes
+          .map(r => r.distURL.href)
+          .filter(href => href.endsWith('.html'))
 
         await Promise.all(
           hrefs.map(href => parseAndWrite(href, linkAndHashCache))
