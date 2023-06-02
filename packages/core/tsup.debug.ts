@@ -5,6 +5,7 @@ export default defineConfig({
   format: 'esm',
   dts: true,
   sourcemap: true,
+  minify: false,
   clean: true,
   outExtension: () => {
     return {
