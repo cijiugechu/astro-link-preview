@@ -18,7 +18,8 @@
     "build:debug": "tsup --config tsup.debug.ts",
     "build": "tsup --config tsup.config.ts",
     "install-playwright-deps": "playwright install chromium",
-    "postinstall": "npx playwright install chromium"
+    "postinstall": "npx playwright install chromium",
+    "prepublish": "npm run build"
   },
   "keywords": [
     "astro",
