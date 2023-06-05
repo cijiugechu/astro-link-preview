@@ -1,7 +1,8 @@
 import type { AstroIntegration, AstroConfig } from 'astro'
-import { readFile, writeFile } from 'node:fs/promises'
+import { readFile, writeFile, rm, rename } from 'node:fs/promises'
+import { createReadStream, createWriteStream } from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import xxhash from 'xxhash-wasm'
+import { xxh32 } from '@node-rs/xxhash'
 import type { Options } from './types'
 import { Logger } from './logger'
 import { GenerateService } from './generate'
@@ -9,7 +10,8 @@ import { optimize } from './optimize'
 import { vitePlugin } from './vite-plugin-link-preview'
 import { context } from './context'
 import path from 'node:path'
-import { HTMLRewriter } from 'html-rewriter-wasm'
+import { RewritingStream } from 'parse5-html-rewriting-stream'
+import { pipeline } from 'node:stream/promises'
 import { isValidURL } from './url'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -18,45 +20,49 @@ const __dirname = path.dirname(__filename)
 const injectedScriptPath = path.join(__dirname, 'injected.mjs')
 const injectedScript = await readFile(injectedScriptPath, { encoding: 'utf-8' })
 
-const hash = async (href: string) => {
-  return (await xxhash()).h32(href)
+const parseAndWrite = async (pathHref: string, cache: Map<string, number>) => {
+  const readStream = createReadStream(pathHref, {
+    encoding: 'utf-8',
+  })
+  const writeStream = createWriteStream(pathHref.concat('.tmp'), {
+    encoding: 'utf-8',
+  })
+  const rewriterStream = new RewritingStream()
+
+  rewriterStream.on('startTag', startTag => {
+    if (startTag.tagName === 'a') {
+      const href = startTag.attrs.find(attr => attr.name === 'href')?.value
+
+      if (!isValidURL(href)) {
+        rewriterStream.emitStartTag(startTag)
+      } else {
+        if (cache.has(href)) {
+          startTag.attrs.push({
+            name: 'data-link-preview',
+            value: `${cache.get(href)}`,
+          })
+          rewriterStream.emitStartTag(startTag)
+        } else {
+          const hashed = xxh32(href)
+          cache.set(href, hashed)
+          startTag.attrs.push({
+            name: 'data-link-preview',
+            value: `${hashed}`,
+          })
+          rewriterStream.emitStartTag(startTag)
+        }
+      }
+    } else {
+      rewriterStream.emitStartTag(startTag)
+    }
+  })
+
+  await pipeline(readStream, rewriterStream, writeStream)
 }
 
-const parseAndWrite = async (pathHref: string, cache: Map<string, number>) => {
-  const encoder = new TextEncoder()
-  const decoder = new TextDecoder()
-  let output = ''
-
-  const rawHtml = await readFile(fileURLToPath(pathHref), { encoding: 'utf-8' })
-
-  const rewriter = new HTMLRewriter(outputChunk => {
-    output += decoder.decode(outputChunk)
-  })
-
-  rewriter.on('a', {
-    async element(element) {
-      const href = element.getAttribute('href')
-      if (!isValidURL(href)) {
-        return
-      }
-
-      if (cache.has(href)) {
-        element.setAttribute('data-link-preview', `${cache.get(href)}`)
-      } else {
-        const hashed = await hash(href)
-        cache.set(href, hashed)
-        element.setAttribute('data-link-preview', `${hashed}`)
-      }
-    },
-  })
-
-  try {
-    await rewriter.write(encoder.encode(rawHtml))
-    await rewriter.end()
-    await writeFile(fileURLToPath(pathHref), output, { encoding: 'utf-8' })
-  } finally {
-    rewriter.free() // Remember to free memory
-  }
+const cleanUpTempFiles = async (paths: string[]) => {
+  await Promise.all(paths.map(p => rm(p)))
+  await Promise.all(paths.map(p => rename(p.concat('.tmp'), p)))
 }
 
 const calcPagePaths = (
@@ -139,9 +145,13 @@ const integration = (options: Options = {}): AstroIntegration => {
           .map(path => new URL(path, dir).href)
           .filter(h => h.endsWith('.html'))
 
+        const paths = hrefs.map(fileURLToPath)
+
         await Promise.all(
-          hrefs.map(href => parseAndWrite(href, linkAndHashCache))
+          paths.map(path => parseAndWrite(path, linkAndHashCache))
         )
+
+        await cleanUpTempFiles(paths)
 
         const generator = await GenerateService()
 
