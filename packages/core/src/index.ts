@@ -1,6 +1,6 @@
 import type { AstroIntegration, AstroConfig } from 'astro'
-import { readFile, writeFile, rm, rename } from 'node:fs/promises'
-import { createReadStream, createWriteStream } from 'node:fs'
+import { readFile, writeFile } from 'node:fs/promises'
+import { createWriteStream } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { xxh32 } from '@node-rs/xxhash'
 import type { Options } from './types'
@@ -13,6 +13,7 @@ import path from 'node:path'
 import { RewritingStream } from 'parse5-html-rewriting-stream'
 import { pipeline } from 'node:stream/promises'
 import { isValidURL } from './url'
+import { Readable } from 'node:stream'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -21,10 +22,9 @@ const injectedScriptPath = path.join(__dirname, 'injected.mjs')
 const injectedScript = await readFile(injectedScriptPath, { encoding: 'utf-8' })
 
 const parseAndWrite = async (pathHref: string, cache: Map<string, number>) => {
-  const readStream = createReadStream(pathHref, {
-    encoding: 'utf-8',
-  })
-  const writeStream = createWriteStream(pathHref.concat('.tmp'), {
+  const rawHtmlStr = await readFile(pathHref, { encoding: 'utf-8' })
+  const readStream = Readable.from([rawHtmlStr])
+  const writeStream = createWriteStream(pathHref, {
     encoding: 'utf-8',
   })
   const rewriterStream = new RewritingStream()
@@ -33,15 +33,12 @@ const parseAndWrite = async (pathHref: string, cache: Map<string, number>) => {
     if (startTag.tagName === 'a') {
       const href = startTag.attrs.find(attr => attr.name === 'href')?.value
 
-      if (!isValidURL(href)) {
-        rewriterStream.emitStartTag(startTag)
-      } else {
+      if (isValidURL(href)) {
         if (cache.has(href)) {
           startTag.attrs.push({
             name: 'data-link-preview',
             value: `${cache.get(href)}`,
           })
-          rewriterStream.emitStartTag(startTag)
         } else {
           const hashed = xxh32(href)
           cache.set(href, hashed)
@@ -49,20 +46,14 @@ const parseAndWrite = async (pathHref: string, cache: Map<string, number>) => {
             name: 'data-link-preview',
             value: `${hashed}`,
           })
-          rewriterStream.emitStartTag(startTag)
         }
       }
-    } else {
-      rewriterStream.emitStartTag(startTag)
     }
+
+    rewriterStream.emitStartTag(startTag)
   })
 
   await pipeline(readStream, rewriterStream, writeStream)
-}
-
-const cleanUpTempFiles = async (paths: string[]) => {
-  await Promise.all(paths.map(p => rm(p)))
-  await Promise.all(paths.map(p => rename(p.concat('.tmp'), p)))
 }
 
 const calcPagePaths = (
@@ -150,8 +141,6 @@ const integration = (options: Options = {}): AstroIntegration => {
         await Promise.all(
           paths.map(path => parseAndWrite(path, linkAndHashCache))
         )
-
-        await cleanUpTempFiles(paths)
 
         const generator = await GenerateService()
 
