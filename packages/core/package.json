@@ -1,6 +1,6 @@
 {
   "name": "astro-link-preview",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "This Astro integration generates preview images for external links.",
   "private": false,
   "type": "module",
