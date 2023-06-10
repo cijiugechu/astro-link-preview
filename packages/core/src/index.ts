@@ -84,7 +84,12 @@ const calcPagePaths = (
 }
 
 const integration = (options: Options = {}): AstroIntegration => {
-  const { logStats = true, proxy, previewImageFormat = 'jpg' } = options
+  const {
+    logStats = true,
+    proxy,
+    previewImageFormat = 'jpg',
+    enableOnMobile = false,
+  } = options
 
   if (!['jpg', 'png'].includes(previewImageFormat)) {
     throw new Error(`Invalid preview image format: ${previewImageFormat}`)
@@ -109,14 +114,27 @@ const integration = (options: Options = {}): AstroIntegration => {
     name: 'astro-link-preview',
     hooks: {
       'astro:config:setup': ({ updateConfig, injectScript }) => {
-        if (previewImageFormat === 'jpg') {
-          injectScript(
-            'page',
-            injectedScript.replace('{hashed}.png', '{hashed}.jpg')
-          )
-        } else {
-          injectScript('page', injectedScript)
+        const updateScriptByFormat = (script: string) => {
+          return previewImageFormat === 'jpg'
+            ? script.replace('{hashed}.png', '{hashed}.jpg')
+            : script
         }
+
+        const updateScriptByMobile = (script: string) => {
+          return enableOnMobile
+            ? script.replace('enableOnMobile = false', 'enableOnMobile = true')
+            : script
+        }
+
+        const scriptUpdater = [
+          updateScriptByFormat,
+          updateScriptByMobile,
+        ].reduce(
+          (prev, curr) => (s: string) => curr(prev(s)),
+          (s: string) => s
+        )
+
+        injectScript('page', scriptUpdater(injectedScript))
 
         updateConfig({
           vite: {

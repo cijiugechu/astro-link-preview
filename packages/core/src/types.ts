@@ -15,4 +15,9 @@ export interface Options {
    * @default 'jpg'
    */
   previewImageFormat?: 'png' | 'jpg'
+  /**
+   * whether to allow image previews on mobile devices
+   * @default false
+   */
+  enableOnMobile?: boolean
 }

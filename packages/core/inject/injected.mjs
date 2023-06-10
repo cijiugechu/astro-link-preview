@@ -45,6 +45,8 @@ const cssCode = `
 }
 `
 
+const enableOnMobile = false
+
 try {
   if (typeof document != 'undefined') {
     var elementStyle = document.createElement('style')
@@ -77,6 +79,10 @@ links.forEach(item => {
   })()
 
   item.addEventListener('mouseenter', e => {
+    if (!enableOnMobile && window.innerWidth <= 768) {
+      return
+    }
+
     const href = item.href
 
     let previewElement = null
@@ -124,6 +130,10 @@ links.forEach(item => {
   })
 
   item.addEventListener('mouseleave', e => {
+    if (!enableOnMobile && window.innerWidth <= 768) {
+      return
+    }
+
     const previewElement = document.getElementById(`image-${hashed}`)
 
     previewElement.classList.add('astro-link-preview_img--hidden')
