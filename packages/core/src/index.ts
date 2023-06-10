@@ -129,10 +129,7 @@ const integration = (options: Options = {}): AstroIntegration => {
         const scriptUpdater = [
           updateScriptByFormat,
           updateScriptByMobile,
-        ].reduce(
-          (prev, curr) => (s: string) => curr(prev(s)),
-          (s: string) => s
-        )
+        ].reduce((prev, curr) => (s: string) => curr(prev(s)))
 
         injectScript('page', scriptUpdater(injectedScript))
 
