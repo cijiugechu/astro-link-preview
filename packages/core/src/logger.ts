@@ -16,7 +16,7 @@ const error = (message: string) => {
   console.error(kleur.bgRed(prefix), message)
 }
 
-const Logger = (logStats: boolean) => {
+const createLogger = (logStats: boolean) => {
   return {
     info: logStats ? info : noop,
     warn: logStats ? warn : noop,
@@ -24,6 +24,6 @@ const Logger = (logStats: boolean) => {
   }
 }
 
-export type LoggerType = ReturnType<typeof Logger>
+export type LoggerType = ReturnType<typeof createLogger>
 
-export { Logger }
+export { createLogger }

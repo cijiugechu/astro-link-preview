@@ -4,7 +4,7 @@ import { createWriteStream } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { xxh32 } from '@node-rs/xxhash'
 import type { Options } from './types'
-import { Logger } from './logger'
+import { createLogger } from './logger'
 import { GenerateService } from './generate'
 import { optimize } from './optimize'
 import { vitePlugin } from './vite-plugin-link-preview'
@@ -95,7 +95,7 @@ const integration = (options: Options = {}): AstroIntegration => {
     throw new Error(`Invalid preview image format: ${previewImageFormat}`)
   }
 
-  const logger = Logger(logStats)
+  const logger = createLogger(logStats)
 
   context.set({
     logger,
