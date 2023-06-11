@@ -89,10 +89,16 @@ links.forEach(item => {
 
     const el = document.getElementById(`image-${hashed}`)
 
+    const x = `${e.clientX}px`
+    const y =
+      e.screenY + 200 >= window.innerHeight
+        ? `calc(${e.clientY - 200}px - 2rem )`
+        : `${e.clientY}px`
+
     if (el) {
       previewElement = el
-      previewElement.style.left = `${e.clientX}px`
-      previewElement.style.top = `${e.clientY}px`
+      previewElement.style.left = x
+      previewElement.style.top = y
       el.classList.remove('astro-link-preview_img--hidden')
     } else {
       previewElement = document.createElement('img')
@@ -105,9 +111,9 @@ links.forEach(item => {
       previewElement.id = `image-${hashed}`
       previewElement.style.position = 'fixed'
 
-      previewElement.style.left = `${e.clientX}px`
+      previewElement.style.left = x
 
-      previewElement.style.top = `${e.clientY}px`
+      previewElement.style.top = y
     }
 
     document.body.appendChild(previewElement)
