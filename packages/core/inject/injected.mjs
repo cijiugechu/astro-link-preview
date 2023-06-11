@@ -44,7 +44,7 @@ const cssCode = `
   }
 }
 `
-
+const isProd = import.meta.env.PROD
 const enableOnMobile = false
 
 try {
@@ -71,7 +71,7 @@ const links = Array.from(anchorElements).filter(
 
 links.forEach(item => {
   const hashed = (() => {
-    if (import.meta.env.PROD) {
+    if (isProd) {
       return item.dataset['linkPreview']
     }
 
@@ -97,7 +97,7 @@ links.forEach(item => {
     } else {
       previewElement = document.createElement('img')
 
-      if (import.meta.env.PROD) {
+      if (isProd) {
         previewElement.src = `${import.meta.env.BASE_URL}${hashed}.png`
       }
 
@@ -112,7 +112,7 @@ links.forEach(item => {
 
     document.body.appendChild(previewElement)
 
-    if (!import.meta.env.PROD) {
+    if (!isProd) {
       fetch(`/_astro-link-preview/${window.btoa(href)}`)
         .then(r => {
           if (r.ok) {
