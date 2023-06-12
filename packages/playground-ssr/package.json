@@ -1,0 +1,17 @@
+{
+  "name": "playground-ssr",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "build-and-serve": "astro build && node ./dist/server/entry.mjs"
+  },
+  "dependencies": {
+    "astro": "^2.6.0",
+    "@astrojs/node": "^5.2.0",
+    "astro-link-preview": "workspace:*"
+  }
+}

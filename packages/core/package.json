@@ -6,7 +6,8 @@
   "type": "module",
   "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./dist/index.mjs"
+    ".": "./dist/index.mjs",
+    "./route": "./dist/route.mjs"
   },
   "engines": {
     "node": ">=16.0.0"
@@ -49,6 +50,7 @@
     "@napi-rs/image": "^1.6.1",
     "@node-rs/xxhash": "^1.4.0",
     "@playwright/test": ">=1.14.0",
+    "@rollup/pluginutils": "^5.0.2",
     "kleur": "^4.1.4",
     "parse5-html-rewriting-stream": "^7.0.0"
   },

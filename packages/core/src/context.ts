@@ -1,7 +1,7 @@
 import type { LoggerType } from './logger'
 import type { LaunchOptions } from '@playwright/test'
 
-interface Context {
+export interface Context {
   logger: LoggerType
   proxy: LaunchOptions['proxy']
   imageFormat: 'png' | 'jpg'

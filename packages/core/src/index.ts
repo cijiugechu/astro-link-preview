@@ -14,11 +14,12 @@ import { RewritingStream } from 'parse5-html-rewriting-stream'
 import { pipeline } from 'node:stream/promises'
 import { isValidURL } from './url'
 import { Readable } from 'node:stream'
+import { routeConfigPlugin } from './vite-plugin-config'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-const injectedScriptPath = path.join(__dirname, 'injected.mjs')
+const injectedScriptPath = path.join(__dirname, 'script.mjs')
 const injectedScript = await readFile(injectedScriptPath, { encoding: 'utf-8' })
 
 const parseAndWrite = async (pathHref: string, cache: Map<string, number>) => {
@@ -113,7 +114,14 @@ const integration = (options: Options = {}): AstroIntegration => {
   return {
     name: 'astro-link-preview',
     hooks: {
-      'astro:config:setup': ({ updateConfig, injectScript }) => {
+      'astro:config:setup': ({
+        updateConfig,
+        injectScript,
+        config,
+        injectRoute,
+      }) => {
+        const isSSR = config.output === 'server'
+
         const updateScriptByFormat = (script: string) => {
           return previewImageFormat === 'jpg'
             ? script.replace('{hashed}.png', '{hashed}.jpg')
@@ -126,18 +134,40 @@ const integration = (options: Options = {}): AstroIntegration => {
             : script
         }
 
+        const updateScriptByMode = (script: string) => {
+          return isSSR
+            ? script.replace('const isSsr = false', 'const isSsr = true')
+            : script
+        }
+
         const scriptUpdater = [
           updateScriptByFormat,
           updateScriptByMobile,
+          updateScriptByMode,
         ].reduce((prev, curr) => (s: string) => curr(prev(s)))
 
         injectScript('page', scriptUpdater(injectedScript))
 
         updateConfig({
           vite: {
-            plugins: [vitePlugin()],
+            plugins: [
+              vitePlugin(),
+              isSSR &&
+                routeConfigPlugin({
+                  proxy: proxy,
+                  logStats: logStats,
+                  previewImageFormat: previewImageFormat,
+                }),
+            ].filter(Boolean),
           },
         })
+
+        if (isSSR) {
+          injectRoute({
+            pattern: '/_astro-link-preview/[dynamic]',
+            entryPoint: 'astro-link-preview/route',
+          })
+        }
       },
 
       'astro:config:done': ({ config }) => {
@@ -145,6 +175,10 @@ const integration = (options: Options = {}): AstroIntegration => {
       },
 
       'astro:build:done': async ({ dir, pages }) => {
+        if (astroConfig.output === 'server') {
+          return
+        }
+
         logger.info(`Generating preview images...`)
 
         const hrefs = calcPagePaths(pages, astroConfig.build.format)

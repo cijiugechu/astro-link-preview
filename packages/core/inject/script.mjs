@@ -45,6 +45,8 @@ const cssCode = `
 }
 `
 const isProd = import.meta.env.PROD
+const isSsr = false
+const isSsrOrDev = !isProd || isSsr
 const enableOnMobile = false
 
 try {
@@ -71,7 +73,7 @@ const links = Array.from(anchorElements).filter(
 
 links.forEach(item => {
   const hashed = (() => {
-    if (isProd) {
+    if (!isSsrOrDev) {
       return item.dataset['linkPreview']
     }
 
@@ -103,7 +105,7 @@ links.forEach(item => {
     } else {
       previewElement = document.createElement('img')
 
-      if (isProd) {
+      if (!isSsrOrDev) {
         previewElement.src = `${import.meta.env.BASE_URL}${hashed}.png`
       }
 
@@ -118,7 +120,7 @@ links.forEach(item => {
 
     document.body.appendChild(previewElement)
 
-    if (!isProd) {
+    if (isSsrOrDev) {
       fetch(`/_astro-link-preview/${window.btoa(href)}`)
         .then(r => {
           if (r.ok) {

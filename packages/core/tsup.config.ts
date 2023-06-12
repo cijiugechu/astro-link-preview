@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsup'
 
 export default defineConfig({
-  entry: ['./src/index.ts'],
+  entry: ['./src/index.ts', './src/route.ts'],
   format: 'esm',
   dts: true,
   clean: true,
@@ -13,4 +13,5 @@ export default defineConfig({
     }
   },
   publicDir: 'inject',
+  external: ['virtual:link-preview-config'],
 })
