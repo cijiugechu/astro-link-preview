@@ -18,6 +18,12 @@
 
 ![demo](/assets/demo.gif)
 
+## Features
+
+- Supports both Static Site Generation (`SSG`) and Server-Side Rendering (`SSR`) modes. 
+- Automatically optimizes images to improve loading performance.
+- Provides customizable styles for preview images. 
+
 ## Installation
 
 ```shell
