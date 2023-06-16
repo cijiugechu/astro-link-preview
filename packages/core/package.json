@@ -39,7 +39,6 @@
   },
   "bugs": "https://github.com/cijiugechu/astro-link-preview/issues",
   "devDependencies": {
-    "@playwright/test": "^1.33.0",
     "@types/node": "^18.11.18",
     "astro": "^2.4.4",
     "tsup": "^6.7.0",
@@ -49,10 +48,10 @@
   "dependencies": {
     "@napi-rs/image": "^1.6.1",
     "@node-rs/xxhash": "^1.4.0",
-    "@playwright/test": ">=1.14.0",
     "@rollup/pluginutils": "^5.0.2",
     "kleur": "^4.1.4",
-    "parse5-html-rewriting-stream": "^7.0.0"
+    "parse5-html-rewriting-stream": "^7.0.0",
+    "playwright": "^1.35.1"
   },
   "peerDependencies": {
     "astro": ">=2.0.0"

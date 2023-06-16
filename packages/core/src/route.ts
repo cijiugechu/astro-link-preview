@@ -12,15 +12,13 @@ const playwrightPathWithPnpm = join(
   'node_modules',
   'astro-link-preview',
   'node_modules',
-  '@playwright',
-  'test',
+  'playwright',
   'index.js'
 )
 const playwrightPathWithNpm = join(
   cwd(),
   'node_modules',
-  '@playwright',
-  'test',
+  'playwright',
   'index.js'
 )
 

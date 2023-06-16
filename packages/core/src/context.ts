@@ -1,5 +1,5 @@
 import type { LoggerType } from './logger'
-import type { LaunchOptions } from '@playwright/test'
+import type { LaunchOptions } from 'playwright'
 
 export interface Context {
   logger: LoggerType

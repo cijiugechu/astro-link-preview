@@ -1,4 +1,4 @@
-import { chromium } from '@playwright/test'
+import { chromium } from 'playwright'
 import { context } from './context'
 
 const GenerateService = async () => {

@@ -1,4 +1,4 @@
-import type { LaunchOptions } from '@playwright/test'
+import type { LaunchOptions } from 'playwright'
 
 export interface Options {
   /**
