@@ -34,7 +34,7 @@
   "license": "MIT",
   "devDependencies": {
     "prettier": "^2.8.8",
-    "tsup": "^6.7.0",
+    "tsup": "^7.0.0",
     "typescript": "^5.0.0",
     "vitest": "^0.32.0"
   },
