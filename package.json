@@ -34,8 +34,8 @@
   "license": "MIT",
   "devDependencies": {
     "prettier": "^2.8.8",
-    "tsup": "^6.7.0",
-    "typescript": "^5.0.0",
+    "tsup": "^7.1.0",
+    "typescript": "^5.1.6",
     "vitest": "^0.32.0"
   },
   "packageManager": "pnpm@8.6.2"
