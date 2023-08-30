@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "astro": "^2.6.0",
-    "@astrojs/node": "^5.2.0",
+    "@astrojs/node": "^6.0.0",
     "astro-link-preview": "workspace:*"
   }
 }

@@ -88,8 +88,8 @@ importers:
   packages/playground-ssr:
     dependencies:
       '@astrojs/node':
-        specifier: ^5.2.0
-        version: 5.2.0(astro@2.6.0)
+        specifier: ^6.0.0
+        version: 6.0.0(astro@2.6.0)
       astro:
         specifier: ^2.6.0
         version: 2.6.0
@@ -176,12 +176,11 @@ packages:
       - supports-color
     dev: false
 
-  /@astrojs/node@5.2.0(astro@2.6.0):
-    resolution: {integrity: sha512-WWrQuxvdrD2Jd9np8vpS8/zCNEm0JnGv+oaojXzbfW36R8/09L827t/acYxLuguLufiV3U16QAqEwpS8VFS9TA==}
+  /@astrojs/node@6.0.0(astro@2.6.0):
+    resolution: {integrity: sha512-06x5UBt+g0EIUpOdtCdnTxRJhOTLxUnjzmGwIHp9RNBlIEpzd/dJs6pwvfiM2zuPolTLI53T8VOsdw3EMh2V+w==}
     peerDependencies:
-      astro: ^2.6.0
+      astro: ^3.0.0
     dependencies:
-      '@astrojs/webapi': 2.2.0
       astro: 2.6.0
       send: 0.18.0
       server-destroy: 1.0.1
