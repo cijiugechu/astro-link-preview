@@ -15,7 +15,7 @@
     "astro": "^2.4.4",
     "astro-link-preview": "workspace:*",
     "@astrojs/markdown-remark": "^2.2.0",
-    "hast-util-select": "5.0.5",
+    "hast-util-select": "6.0.1",
     "rehype-autolink-headings": "^6.1.1",
     "rehype-slug": "^5.0.1",
     "rehype-toc": "^3.0.2",
