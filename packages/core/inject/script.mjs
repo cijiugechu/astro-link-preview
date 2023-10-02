@@ -65,10 +65,14 @@ const isExternalURL = hn => {
   return hn !== hostname
 }
 
+const isHttpAddress = address => {
+  return address.startsWith('http://') || address.startsWith('https://')
+}
+
 const anchorElements = document.querySelectorAll('a')
 
 const links = Array.from(anchorElements).filter(
-  node => node.href && isExternalURL(node.hostname)
+  node => node.href && isExternalURL(node.hostname) && isHttpAddress(node.href)
 )
 
 links.forEach(item => {
