@@ -46,17 +46,17 @@
   "devDependencies": {
     "@types/node": "^18.11.18",
     "astro": "^2.4.4",
-    "tsup": "^7.1.0",
+    "tsup": "^7.3.0",
     "typescript": "^5.1.6",
-    "vite": "^4.3.9"
+    "vite": "^4.5.0"
   },
   "dependencies": {
     "@napi-rs/image": "^1.7.0",
     "@node-rs/xxhash": "^1.4.2",
-    "@rollup/pluginutils": "^5.0.4",
+    "@rollup/pluginutils": "^5.0.5",
     "kleur": "^4.1.4",
     "parse5-html-rewriting-stream": "^7.0.0",
-    "playwright": "^1.35.1"
+    "playwright": "^1.40.0"
   },
   "peerDependencies": {
     "astro": ">=2.0.0"
