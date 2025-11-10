@@ -48,7 +48,7 @@
     "astro": "^2.4.4",
     "tsup": "^7.3.0",
     "typescript": "^5.1.6",
-    "vite": "^4.5.0"
+    "vite": "^5.0.0"
   },
   "dependencies": {
     "@napi-rs/image": "^1.7.0",
