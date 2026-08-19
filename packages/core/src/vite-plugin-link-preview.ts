@@ -23,6 +23,7 @@ const vitePlugin = (): Plugin => {
           if (urlCache.has(url)) {
             res.statusCode = 503
             res.end()
+            return
           }
 
           urlCache.add(url)
@@ -33,6 +34,7 @@ const vitePlugin = (): Plugin => {
             if (buf.length === 0) {
               res.statusCode = 503
               res.end()
+              return
             }
 
             res.setHeader('Content-Type', `application/octet-stream`)

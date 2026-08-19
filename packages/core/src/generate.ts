@@ -1,5 +1,6 @@
 import { chromium } from 'playwright'
 import { context } from './context'
+import { isValidURL } from './url'
 
 const GenerateService = async () => {
   const { proxy, logger, imageFormat } = context.get()
@@ -10,6 +11,10 @@ const GenerateService = async () => {
 
   return {
     generate: async (href: string) => {
+      if (!isValidURL(href)) {
+        return Buffer.from([])
+      }
+
       const context = await browser.newContext()
       const page = await context.newPage()
       try {
